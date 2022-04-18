@@ -29,6 +29,7 @@ Row
 top_10_complaint_companies <- complaints %>% 
   filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
 
+
 ggplot(top_10_complaint_companies, aes(x = company)) +
   geom_bar(color = "#6ebcaa", fill = "#3eabda") +
   coord_flip()+
@@ -43,27 +44,19 @@ ggplot(top_10_complaint_companies, aes(x = company)) +
 Row
 -------------------------------------
     
-### Chart 2 - Number of Complaints by State
+### Chart 2 - Number of Wells Fargo Complaints by State
     
 ```{r}
-# I really tried to run this map, but it would not process, just too much data, it crashed R like 4 times. But I thought it was a cool idea so I left it in here
-#plot_usmap(data = top_complaint_companies, values = "state", color = "red") + 
-  #scale_fill_continuous(name = "Complaints", label = scales::comma) + 
-  #theme(legend.position = "right")
 
-library(dplyr)
-library(stringr)
-Renamed_complaints <- complaints %>% 
-  rename_at(vars(starts_with("UNITED STATES MINOR OUTLYING ISLANDS")), 
-              ~ str_replace(., "UNITED STATES MINOR OUTLYING ISLANDS", paste0("Outlying Islands", seq_along(.))))
+Wells_Fargo_Complaints<- complaints %>% 
+  filter(company == "WELLS FARGO & COMPANY")
 
-
-ggplot(complaints, aes(x = state)) +
+ggplot(Wells_Fargo_Complaints, aes(x = state)) +
   geom_bar(width = .5, position = position_dodge(18), color = "#6ebcaa", fill = "#3eabda") +
   scale_y_continuous(name = "Complaints", labels = scales::comma) +
-  scale_x_discrete(name = "Companies") +
+  scale_x_discrete(name = "States") +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
-  labs(title = "Top 10 Comapnies By Number of Complaints", 
+  labs(title = "Welss Fargo Complaints By State", 
        subtitle = "",
        caption = "Consumer Complaint Database")
 
@@ -71,9 +64,39 @@ ggplot(complaints, aes(x = state)) +
 
 ```
     
-### Chart 3 - Top 5 Complaints Throughout The Year
+### Chart 3 - Top 3 Complaints By Each State
 
 ```{r}
+Complaints_NoOutlyingIslands<- complaints%>%
+    filter(state == "AL"|state == "AK"|state == "AZ"|state == "AR"|state == "CA"|state == "CZ"|state == "CO"|state == "CT"|state == "DE"|state == "DC"|state == "FL"|state == "GA"|state == "GU"|state == "HI"|state == "ID"|state == "IL"|state == "IN"|state == "IA"|state == "KS"|state == "KY"|state == "LA"|state == "ME"|state == "MD"|state == "MA"|state == "MI"|state == "MN"|state == "MS"|state == "MO"|state == "MT"|state == "NE"|state == "NV"|state == "NH"|state == "NJ"|state == "NM"|state == "NY"|state == "NC"|state == "ND"|state == "OH"|state == "OK"|state == "OR"|state == "PA"|state == "PR"|state == "RI"|state == "SC"|state == "SD"|state == "TN"|state == "TX"|state == "UT"|state == "VT"|state == "VI"|state == "VA"|state == "WV"|state == "WI"|state == ""|state == "WY")
+
+
+First_complaint<- Complaints_NoOutlyingIslands%>% 
+  filter(product == "Credit reporting, credit repair services, or other personal consumer reports")
+
+
+
+Second_complaint<- Complaints_NoOutlyingIslands%>% 
+  filter(product == "Debt collection")
+
+
+Third_complaint<- Complaints_NoOutlyingIslands%>% 
+  filter(product == "Credit card or prepaid card")
+  
+
+
+    
+    
+ggplot() +
+  geom_bar(data = First_complaint, aes(x = state), color = "blue") + 
+  geom_bar(data = Second_complaint, aes(x = state), color = "red") +
+  geom_bar(data = Third_complaint, aes(x = state), color = "green") +
+  scale_x_discrete(name = "Year") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
+  labs(title = "Top Three Complaints By State", 
+       subtitle = "Credit Reporting (Blue), Debt Collection (Red), Credit Card (Green)",
+       caption = "Consumer Complaint Database")
+  
 ```
 
 

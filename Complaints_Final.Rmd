@@ -22,20 +22,23 @@ library(lubridate)
 Row
 -------------------------------------
     
-### Chart 1
+### Chart 1 - Top Companies Recieving Complaints
     
 ```{r}
+top_10_complaint_companies <- complaints %>% 
+  filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
+
 ```
    
 Row
 -------------------------------------
     
-### Chart 2
+### Chart 2 - Top States Recieving Complaints
     
 ```{r}
 ```
     
-### Chart 3
+### Chart 3 - Top 5 Complaints Throughout The Year
 
 ```{r}
 ```

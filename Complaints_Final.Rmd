@@ -15,27 +15,54 @@ library(tidyverse)
 library(janitor) 
 library(scales)
 library(lubridate)
-
+library(usmap)
+library(ggplot2)
 ```
 ---
     
 Row
 -------------------------------------
     
-### Chart 1 - Top Companies Recieving Complaints
+### Chart 1 - Top 10 Companies Recieving Complaints
     
 ```{r}
 top_10_complaint_companies <- complaints %>% 
   filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
+
+ggplot(top_10_complaint_companies, aes(x = company)) +
+  geom_bar(color = "#6ebcaa", fill = "#3eabda") +
+  coord_flip()+
+  scale_y_continuous(name = "Complaints", labels = scales::comma) +
+  scale_x_discrete(name = "Companies") +
+  labs(title = "Top 10 Comapnies By Number of Complaints", 
+       subtitle = "",
+       caption = "Consumer Complaint Database")
 
 ```
    
 Row
 -------------------------------------
     
-### Chart 2 - Top States Recieving Complaints
+### Chart 2 - Number of Complaints by State
     
 ```{r}
+ggplot(top_10_complaint_companies, aes(x = company)) +
+  geo(color = "#6ebcaa", fill = "#3eabda") +
+  coord_flip()+
+  scale_y_continuous(name = "Complaints", labels = scales::comma) +
+  scale_x_discrete(name = "Companies") +
+  labs(title = "Top 10 Comapnies By Number of Complaints", 
+       subtitle = "",
+       caption = "Consumer Complaint Database")
+
+
+library(usmap)
+library(ggplot2)
+
+plot_usmap(data = statepop, values = "pop_2015", color = "red") + 
+  scale_fill_continuous(name = "Population (2015)", label = scales::comma) + 
+  theme(legend.position = "right")
+
 ```
     
 ### Chart 3 - Top 5 Complaints Throughout The Year

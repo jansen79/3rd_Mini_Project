@@ -1,0 +1,43 @@
+---
+title: "Complaints_Final"
+author: "Jansen Baier"
+date: "4/18/2022"
+output: flexdashboard::flex_dashboard
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#importing data and run the standard stuff
+library(tidyverse)
+library(janitor) 
+library(scales)
+library(lubridate)
+
+```
+---
+    
+Row
+-------------------------------------
+    
+### Chart 1
+    
+```{r}
+```
+   
+Row
+-------------------------------------
+    
+### Chart 2
+    
+```{r}
+```
+    
+### Chart 3
+
+```{r}
+```
+
+

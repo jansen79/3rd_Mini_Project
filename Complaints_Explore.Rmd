@@ -17,15 +17,25 @@ library(lubridate)
 library(dplyr)
 ```
 
-```{r}
-complaints %>% 
-  filter(pos == "C") %>% 
-  arrange(desc(salary))
-```
 
 ```{r}
+#what companies have the most complaints?
 library(dplyr)
 complaints %>% 
   count(company, sort = TRUE)
 ```
+```{r}
+#What state had the most complaints?
+library(dplyr)
+complaints %>% 
+  count(state, sort = TRUE)
+
+```
+```{r}
+#what type of complaints occured the most often?
+library(dplyr)
+complaints %>% 
+  count(product, sort = TRUE)
+```
+
 

@@ -46,22 +46,28 @@ Row
 ### Chart 2 - Number of Complaints by State
     
 ```{r}
-ggplot(top_10_complaint_companies, aes(x = company)) +
-  geo(color = "#6ebcaa", fill = "#3eabda") +
-  coord_flip()+
+# I really tried to run this map, but it would not process, just too much data, it crashed R like 4 times. But I thought it was a cool idea so I left it in here
+#plot_usmap(data = top_complaint_companies, values = "state", color = "red") + 
+  #scale_fill_continuous(name = "Complaints", label = scales::comma) + 
+  #theme(legend.position = "right")
+
+library(dplyr)
+library(stringr)
+Renamed_complaints <- complaints %>% 
+  rename_at(vars(starts_with("UNITED STATES MINOR OUTLYING ISLANDS")), 
+              ~ str_replace(., "UNITED STATES MINOR OUTLYING ISLANDS", paste0("Outlying Islands", seq_along(.))))
+
+
+ggplot(complaints, aes(x = state)) +
+  geom_bar(width = .5, position = position_dodge(18), color = "#6ebcaa", fill = "#3eabda") +
   scale_y_continuous(name = "Complaints", labels = scales::comma) +
   scale_x_discrete(name = "Companies") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
   labs(title = "Top 10 Comapnies By Number of Complaints", 
        subtitle = "",
        caption = "Consumer Complaint Database")
 
 
-library(usmap)
-library(ggplot2)
-
-plot_usmap(data = statepop, values = "pop_2015", color = "red") + 
-  scale_fill_continuous(name = "Population (2015)", label = scales::comma) + 
-  theme(legend.position = "right")
 
 ```
     

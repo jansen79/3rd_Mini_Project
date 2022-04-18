@@ -25,15 +25,18 @@ Row
     
 ### Chart 1 - Top 10 Companies Recieving Complaints
     
+
+
 ```{r}
-top_10_complaint_companies <- complaints %>% 
+complaints_copy <- complaints
+
+top_ten_complaint_companies <- complaints_copy %>% 
   filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
 
 
-ggplot(top_10_complaint_companies, aes(x = company)) +
+ggplot(top_ten_complaint_companies, aes(x = company)) +
   geom_bar(color = "#6ebcaa", fill = "#3eabda") +
   coord_flip()+
-  scale_y_continuous(name = "Complaints", labels = scales::comma) +
   scale_x_discrete(name = "Companies") +
   labs(title = "Top 10 Comapnies By Number of Complaints", 
        subtitle = "",

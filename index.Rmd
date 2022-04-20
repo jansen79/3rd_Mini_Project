@@ -20,14 +20,12 @@ library(ggplot2)
 
 complaints <- readRDS("complaints.rds")
 ```
----
-    
-Row
--------------------------------------
-    
-### Chart 1 - Top 10 Companies Recieving Complaints
-    
 
+------------------------------------------------------------------------
+
+## Row
+
+### Chart 1 - Top 10 Companies Recieving Complaints
 
 ```{r}
 complaints_copy <- complaints
@@ -45,12 +43,11 @@ ggplot(top_ten_complaint_companies, aes(x = company)) +
        caption = "Consumer Complaint Database")
 
 ```
-   
-Row
--------------------------------------
-    
+
+## Row
+
 ### Chart 2 - Number of Wells Fargo Complaints by State
-    
+
 ```{r}
 
 Wells_Fargo_Complaints<- complaints %>% 
@@ -68,7 +65,7 @@ ggplot(Wells_Fargo_Complaints, aes(x = state)) +
 
 
 ```
-    
+
 ### Chart 3 - Top 3 Complaints By Each State
 
 ```{r}
@@ -104,5 +101,3 @@ ggplot() +
        caption = "Consumer Complaint Database")
   
 ```
-
-

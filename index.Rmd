@@ -2,11 +2,14 @@
 title: "Complaints_Final"
 author: "Jansen Baier"
 date: "4/18/2022"
-output: flexdashboard::flex_dashboard
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r}
@@ -22,22 +25,20 @@ library(formattable)
 complaints <- readRDS("complaints.rds")
 ```
 
+Row
 ------------------------------------------------------------------------
-## Row
+
 
 ### About
-```{r}
-#This website explores consumer complaints against US Banks in the year 2020. Specifically,
-#it explores the most common complaints against the most complained banks, using the states to further analyze this data.
-#The first chart shows the most complaints per state specifically for the top three most complained companies.
-#The next chart explores the top three complaints by each state, with different colors showing each complaint.
+This website explores consumer complaints against US Banks in the year 2020. Specifically,
+it explores the most common complaints against the most complained banks, using the states to further analyze this data.
+The first chart shows the most complaints per state specifically for the top three most complained companies.
+The next chart explores the top three complaints by each state, with different colors showing each complaint.
 
-#Following the two charts are two tables. The first table explores how many complaints each of the top 10 companies by complaints
-#received. The next chart explores the top 5 complaints of the top 5 companies by complaints.
+Following the two charts are two tables. The first table explores how many complaints each of the top 10 companies by complaints
+received. The next chart explores the top 5 complaints of the top 5 companies by complaints.
 
-#The only major caveat to consider in this data is that date from outlying minor US islands was the remove because it had little data and it was altering the framing of other graphs in this project beyond the point of readability.
-
-```
+The only major caveat to consider in this data is that date from outlying minor US islands was the remove because it had little data and it was altering the framing of other graphs in this project beyond the point of readability.
 
 
 ### Chart 1 - Complaints per State by the Top 3 Most Complainted Companies
@@ -71,7 +72,7 @@ ggplot() +
 
 ```
 
-### Chart 3 - Top 3 Complaints By Each State
+### Chart 2 - Top 3 Complaints By Each State
 
 ```{r}
 Complaints_NoOutlyingIslands<- complaints%>%
@@ -106,7 +107,8 @@ ggplot() +
        caption = "Consumer Complaint Database")
   
 ```
-## Column
+Column
+------------------------------------------------------------------------
 
 ### Table 1 - Top 10 Companies Recieving Complaints Table
 ```{r}
@@ -115,12 +117,12 @@ complaints_copy <- complaints
 top_ten_complaint_companies <- complaints_copy %>% 
   filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
 
-tentable <-table(top_ten_complaint_companies$company)
+tentable <-top_ten_complaint_companies %>% 
+  count(company,name = "Complaints")
 
 formattable(tentable)
 
 ```
-## Row
 
 ### Table 2 - Top 5 Complaints of Top 5 Companies
 ```{r}

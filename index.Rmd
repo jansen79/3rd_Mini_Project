@@ -25,28 +25,7 @@ complaints <- readRDS("complaints.rds")
 
 ## Row
 
-### Chart 1 - Top 10 Companies Recieving Complaints
-
-```{r}
-complaints_copy <- complaints
-
-top_ten_complaint_companies <- complaints_copy %>% 
-  filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
-
-
-ggplot(top_ten_complaint_companies, aes(x = company)) +
-  geom_bar(color = "#6ebcaa", fill = "#3eabda") +
-  coord_flip()+
-  scale_x_discrete(name = "Companies") +
-  labs(title = "Top 10 Comapnies By Number of Complaints", 
-       subtitle = "",
-       caption = "Consumer Complaint Database")
-
-```
-
-## Row
-
-### Chart 2 - Number of Wells Fargo Complaints by State
+### Chart 1 - Number of Wells Fargo Complaints by State
 
 ```{r}
 
@@ -101,3 +80,32 @@ ggplot() +
        caption = "Consumer Complaint Database")
   
 ```
+## Row
+
+### Table 1 - Top 10 Companies Recieving Complaints Table
+```{r}
+complaints_copy <- complaints
+
+top_ten_complaint_companies <- complaints_copy %>% 
+  filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
+
+tentable <-table(top_ten_complaint_companies$company)
+tentable
+
+
+```
+## Row
+
+### Table 2 - Top 5 Complaints of Top 5 Companies
+```{r}
+top_five_complaint_companies <- complaints_copy %>% 
+  filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION")
+
+top_five_complaints_for_each_companies <- top_five_complaint_companies %>%
+  filter(product == "Credit reporting, credit repair services, or other personal consumer reports"|product == "Debt collection"|product == "Credit card or prepaid card"|product == "Mortgage"|product == "Checking or savings account")
+
+fivetable <-table(top_five_complaints_for_each_companies$company, top_five_complaints_for_each_companies$product)
+fivetable
+
+```
+

@@ -17,28 +17,54 @@ library(scales)
 library(lubridate)
 library(usmap)
 library(ggplot2)
+library(formattable)
 
 complaints <- readRDS("complaints.rds")
 ```
 
 ------------------------------------------------------------------------
-
 ## Row
 
-### Chart 1 - Number of Wells Fargo Complaints by State
+### About
+```{r}
+#This website explores consumer complaints against US Banks in the year 2020. Specifically,
+#it explores the most common complaints against the most complained banks, using the states to further analyze this data.
+#The first chart shows the most complaints per state specifically for the top three most complained companies.
+#The next chart explores the top three complaints by each state, with different colors showing each complaint.
+
+#Following the two charts are two tables. The first table explores how many complaints each of the top 10 companies by complaints
+#received. The next chart explores the top 5 complaints of the top 5 companies by complaints.
+
+#The only major caveat to consider in this data is that date from outlying minor US islands was the remove because it had little data and it was altering the framing of other graphs in this project beyond the point of readability.
+
+```
+
+
+### Chart 1 - Complaints per State by the Top 3 Most Complainted Companies
 
 ```{r}
 
-Wells_Fargo_Complaints<- complaints %>% 
-  filter(company == "WELLS FARGO & COMPANY")
+Complaints_NoOutlyingIslands<- complaints%>%
+    filter(state == "AL"|state == "AK"|state == "AZ"|state == "AR"|state == "CA"|state == "CZ"|state == "CO"|state == "CT"|state == "DE"|state == "DC"|state == "FL"|state == "GA"|state == "GU"|state == "HI"|state == "ID"|state == "IL"|state == "IN"|state == "IA"|state == "KS"|state == "KY"|state == "LA"|state == "ME"|state == "MD"|state == "MA"|state == "MI"|state == "MN"|state == "MS"|state == "MO"|state == "MT"|state == "NE"|state == "NV"|state == "NH"|state == "NJ"|state == "NM"|state == "NY"|state == "NC"|state == "ND"|state == "OH"|state == "OK"|state == "OR"|state == "PA"|state == "PR"|state == "RI"|state == "SC"|state == "SD"|state == "TN"|state == "TX"|state == "UT"|state == "VT"|state == "VI"|state == "VA"|state == "WV"|state == "WI"|state == ""|state == "WY")
 
-ggplot(Wells_Fargo_Complaints, aes(x = state)) +
-  geom_bar(width = .5, position = position_dodge(18), color = "#6ebcaa", fill = "#3eabda") +
+Experian_Complaints<- Complaints_NoOutlyingIslands %>% 
+  filter(company == "Experian Information Solutions Inc.")
+
+Transunion_Complaints<- Complaints_NoOutlyingIslands %>% 
+  filter(company == "TRANSUNION INTERMEDIATE HOLDINGS, INC.")
+
+Equifax_Complaints<- Complaints_NoOutlyingIslands %>% 
+  filter(company == "EQUIFAX, INC.")
+
+ggplot() +
+  geom_bar(data = Experian_Complaints, aes(x = state), color = "blue") + 
+  geom_bar(data = Transunion_Complaints, aes(x = state), color = "red") +
+  geom_bar(data = Equifax_Complaints, aes(x = state), color = "green") +
   scale_y_continuous(name = "Complaints", labels = scales::comma) +
   scale_x_discrete(name = "States") +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
-  labs(title = "Welss Fargo Complaints By State", 
-       subtitle = "",
+  labs(title = "Complaints By State for the Top 3 Most Complained Companies", 
+       subtitle = "Experian (Blue), Transunion (Red), Equifax (Green)",
        caption = "Consumer Complaint Database")
 
 
@@ -80,7 +106,7 @@ ggplot() +
        caption = "Consumer Complaint Database")
   
 ```
-## Row
+## Column
 
 ### Table 1 - Top 10 Companies Recieving Complaints Table
 ```{r}
@@ -90,8 +116,8 @@ top_ten_complaint_companies <- complaints_copy %>%
   filter(company == "Experian Information Solutions Inc."|company == "TRANSUNION INTERMEDIATE HOLDINGS, INC."|company == "EQUIFAX, INC."|company == "CAPITAL ONE FINANCIAL CORPORATION"|company == "BANK OF AMERICA, NATIONAL ASSOCIATION"|company == "JPMORGAN CHASE & CO."|company == "CITIBANK, N.A."|company == "WELLS FARGO & COMPANY"|company == "SYNCHRONY FINANCIAL"|company == "PNC Bank N.A.")
 
 tentable <-table(top_ten_complaint_companies$company)
-tentable
 
+formattable(tentable)
 
 ```
 ## Row
@@ -105,7 +131,7 @@ top_five_complaints_for_each_companies <- top_five_complaint_companies %>%
   filter(product == "Credit reporting, credit repair services, or other personal consumer reports"|product == "Debt collection"|product == "Credit card or prepaid card"|product == "Mortgage"|product == "Checking or savings account")
 
 fivetable <-table(top_five_complaints_for_each_companies$company, top_five_complaints_for_each_companies$product)
-fivetable
 
+formattable(fivetable)
 ```
 

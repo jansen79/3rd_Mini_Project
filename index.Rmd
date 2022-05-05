@@ -132,8 +132,9 @@ top_five_complaint_companies <- complaints_copy %>%
 top_five_complaints_for_each_companies <- top_five_complaint_companies %>%
   filter(product == "Credit reporting, credit repair services, or other personal consumer reports"|product == "Debt collection"|product == "Credit card or prepaid card"|product == "Mortgage"|product == "Checking or savings account")
 
-fivetable <-table(top_five_complaints_for_each_companies$company, top_five_complaints_for_each_companies$product)
+fivetable <-tabyl(top_five_complaints_for_each_companies,company,product)
 
 formattable(fivetable)
+
 ```
 
